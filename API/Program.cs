@@ -1,19 +1,25 @@
 using API.Data;
 using API.Entities;
+using API.Extenstions;
+using API.Interfaces;
+using API.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
 // add dbcontext service
-
 var config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.Development.json").Build();
 var connectionString = config.GetConnectionString("DefaultConnection");
@@ -24,7 +30,18 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 
 
-var app = builder.Build();
+
+
+//add ITokenService interface to Dep.injection services
+builder.Services.AddScoped<ITokenService,TokenService>();
+
+
+
+//add authentication service , using extension method(api.extensions...)class
+//we user extension class for cleaning purpuses
+builder.Services.addIdentityService(config);
+
+
 
 /*using (var scope = app.Services.CreateScope())
 {
@@ -37,6 +54,22 @@ var app = builder.Build();
 
 
 
+
+
+// Add CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+
+var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -45,7 +78,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
+// Use CORS
+app.UseCors("AllowAll");
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
