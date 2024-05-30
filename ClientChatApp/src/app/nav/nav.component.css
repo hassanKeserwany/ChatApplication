@@ -1,0 +1,29 @@
+.dropdown-item {
+  transition: transform 0.2s ease;
+}
+.dropdown-item:hover {
+  transform: translateX(5px);
+}
+
+/* Apply the animation to the element */
+.moveUpDown {
+  display: inline-block; /* Necessary to make transform work */
+  animation: goUpDown 3s infinite; /* 1s duration, infinite loop */
+  font-family: cursive;
+  font-size: 25px;
+}
+/* Define the keyframes for the animation */
+@keyframes goUpDown {
+  0%,
+  100% {
+    transform: translateX(0); /* Start and end position */
+  }
+  50% {
+    transform: translateX(-10px); /* Move up by 5px */
+  }
+}
+
+
+.text{
+  color: white;
+}
