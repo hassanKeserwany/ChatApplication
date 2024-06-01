@@ -38,7 +38,7 @@ builder.Services.AddScoped<ITokenService,TokenService>();
 
 
 //add authentication service , using extension method(api.extensions...)class
-//we user extension class for cleaning purpuses
+//we use extension class for cleaning purpuses
 builder.Services.addIdentityService(config);
 
 
