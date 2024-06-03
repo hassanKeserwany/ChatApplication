@@ -1,6 +1,7 @@
 using API.Data;
 using API.Entities;
 using API.Extenstions;
+using API.Helper;
 using API.Interfaces;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -30,27 +31,18 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 
 
-
+//add service for autoMapper
+builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
 //add ITokenService interface to Dep.injection services
 builder.Services.AddScoped<ITokenService,TokenService>();
 
-
+//add service to repository pattern IUserRepository
+builder.Services.AddScoped<IUserRepository,UserRepository>();
 
 //add authentication service , using extension method(api.extensions...)class
 //we use extension class for cleaning purpuses
 builder.Services.addIdentityService(config);
-
-
-
-/*using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<DataContext>(); // get DataContext instance from the dependency injection (DI) 
-    var user1 = new AppUser();
-    user1.UserName = "Ali";
-    context.Users.Add(user1);
-    context.SaveChanges();
-}*/
 
 
 
@@ -66,9 +58,9 @@ builder.Services.AddCors(options =>
               .AllowAnyHeader();
     });
 });
+var app =builder.Build();
 
 
-var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

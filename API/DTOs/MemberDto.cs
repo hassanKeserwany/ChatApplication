@@ -1,26 +1,29 @@
-﻿using API.Entities;
-using System.ComponentModel.DataAnnotations;
+﻿using API.Data;
+using API.Entities;
 
 namespace API.DTOs
 {
-    public class RegisterDto
+    public class MemberDto
     {
-        [Required]
-        public string Username {  get; set; }
-        [Required]
-        [StringLength(15,MinimumLength =4)]
-        public string Password { get; set; }
-        /////////////////////////////
-        public string Gender { get; set; }
-        public DateTime DateOfBirth { get; set; }
+       
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string PhotoUrl { get; set; } 
+        public int Age{ get; set; }
         public string KnownAs { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public DateTime LastActive { get; set; } = DateTime.Now;
+        public string Gender { get; set; }
         public string Introduction { get; set; }
         public string Lookingfor { get; set; }
         public string Interests { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        public ICollection<PhotoDto> Photos { get; set; }
         
+
     }
+
+    
+    
 }
