@@ -4,11 +4,13 @@ import { account } from '../_models/account';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
+
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css',
 })
+
 export class NavComponent implements OnInit {
   model: account = {
     username: '',
@@ -53,3 +55,9 @@ export class NavComponent implements OnInit {
     return this.userNameFormStorage;
   }
 }
+
+
+
+
+ 
+

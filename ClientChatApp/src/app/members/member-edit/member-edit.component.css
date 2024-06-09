@@ -1,0 +1,38 @@
+.myCard{
+    width:250px;
+    border-radius: 15px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
+
+}
+
+.myCard img{
+    width: 100%;
+    border-radius: 15px 15px 0 0;
+    transform: scale(1.0,1.0);
+    transition-duration:500ms ;
+    transition-timing-function: ease-out;
+}
+.myCard .card-footer{
+padding: 10px 25px;
+background-color:#fff ;
+border-top: none;
+}
+.myCard .fa{
+    font-size: 40px;
+    padding: 0;
+    margin: 10px 0 0 0;
+}
+.myCard .fa-heart{
+    color: black
+}
+.myCard .fa-envelope{
+    color: rgb(41, 131, 241);
+}
+textarea ,input {
+    padding: 10px;
+    border-radius: 15px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
+}
+input{
+    width: 50%;
+}

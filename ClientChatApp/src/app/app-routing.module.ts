@@ -6,18 +6,29 @@ import { MemberDetailsComponent } from './members/member-details/member-details.
 import { ListsComponent } from './lists/lists.component';
 import { MessagesComponent } from './messages/messages.component';
 import { AuthGuard } from './_guards/auth.guard';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 
 const routes: Routes = [
-  {path:'',component:HomeComponent },
-  {path:'members',component:MemberListComponent ,canActivate:[AuthGuard]},
-  {path:'member/:id',component:MemberDetailsComponent},
-  {path:'lists',component:ListsComponent},
-  {path:'messages',component:MessagesComponent},
-  {path:'**',component:HomeComponent,pathMatch:'full'},
+  { path: '', component: HomeComponent },
+  {
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'members', component: MemberListComponent },
+      { path: 'member/username/:username', component: MemberDetailsComponent },
+      { path: 'member/edit', component: MemberEditComponent ,canDeactivate:[PreventUnsavedChangesGuard] },
+      { path: 'lists', component: ListsComponent },
+      { path: 'messages', component: MessagesComponent },
+    ],
+  },
+
+  { path: '**', component: HomeComponent, pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

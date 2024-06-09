@@ -4,6 +4,9 @@ using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.IO;
 
 namespace API.Data
 {
@@ -19,18 +22,18 @@ namespace API.Data
         }
         public async Task<MemberDto> GetMemberAsync(string username)
         {
+            /*            "ProjectTo" : translates object mapping directly into a LINQ query that the database understands.
+             *            This means only the necessary fields are selected from the database,
+             *            reducing the amount of data transferred and improving performance. 
+             *            => only used on the queryable collection (before -> Where)!!!
+            */
             var member = await _context.Users
-                .Where(x => x.UserName == username)
-                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync();
+            .Where(x => x.UserName == username)
+            .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
+            .SingleOrDefaultAsync();
 
-
-            if(member == null) { return null; } 
-
-            else { 
+            
                 return member;
-            }
-             
         }
         public async Task<IEnumerable<MemberDto>> GetAllMembersAsync()
         {
@@ -63,7 +66,7 @@ namespace API.Data
 
         }
 
-        public async Task<bool> SaveAllAsync(int id)
+        public async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() >0;
         }

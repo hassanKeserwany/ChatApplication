@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -8,27 +8,19 @@ import { Component, OnInit, input } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   registerMode = false;
-  baseUrl: string = 'https://localhost:5001/api/';
-  users: any = {};
+  baseUrl: string = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+
+  constructor() {}
   ngOnInit(): void {
-    this.getUser()
-  }
+    }
+  
 
   registerToggle() {
     this.registerMode = !this.registerMode;
   }
 
-  //array of users
-  getUser() {
-    this.http
-      .get(this.baseUrl + 'Users').subscribe((res) => (this.users = res));
-    }
-
-
-    cancelRegisterMode(event:boolean){
-      this.registerMode=event;
-    }
-
+  cancelRegisterMode(event: boolean) {
+    this.registerMode = event;
+  }
 }

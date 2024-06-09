@@ -1,1 +1,57 @@
-<p>member-details works!</p>
+<div class="row" *ngIf="member">
+    <div class="col-4">
+        <div class="card myCard">
+            <img src="{{member.photoUrl || '/assets/carousel-imgs/Event-Image-Not-Found.jpg'}} " alt="{{member.knownAs}}"
+                class="card-img-top img-thumnail">
+            <div class="card-body">
+                <div>
+                    <strong>Location</strong>
+                    <p>{{member.city}}, {{member.country}}</p>
+                </div>
+                <div>
+
+                    <p><strong>Age : </strong>{{member.age}}</p>
+
+                </div>
+                <div>
+                    <strong>Member Active</strong>
+                    <p>{{member.lastActive}}</p>
+                </div>
+                <div>
+                    <strong>Member Since</strong>
+                    <p>{{member.createdAt}}</p>
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between">
+                        <i class="fa fa-heart"></i>
+                        <i class="fa fa-envelope"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-8">
+        <tabset class="member-tabset">
+            <tab heading="About {{member.knownAs}}" id="tab1">
+                <h4>Description</h4>
+                <p>{{member.introduction}}</p>
+                <h4>Looking for</h4>
+                <p>{{member.lookingfor}}</p>
+            </tab>
+            <tab heading="Intersts" id="tab1">
+                <h4>Intersts</h4>
+                <p>{{member.interests}}</p>
+            </tab>
+            <tab heading="Messages" id="tab1">
+                <h4>Messages goes here</h4>
+            </tab>
+            <tab heading="Photos" id="tab1">
+                <div class="myGallery">
+                    <gallery [loop]="loop" [showErrors]="showErrors" [errorText]="errorText" [objectFit]="objectFit"
+                        [items]="images ">
+                    </gallery>
+                </div>
+            </tab>
+        </tabset>
+    </div>
+</div>
