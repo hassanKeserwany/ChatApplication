@@ -25,9 +25,10 @@
 
 
         <div class="dropdown" *ngIf="(accountService.currentUser$|async) as user" dropdown>
+            <img src="{{user.photoUrl}} " class="userImage">
             <a id="button-basic" dropdownToggle type="link" class="dropdown-toggle  text-light"
                 aria-controls="dropdown-basic">
-                Welcome <span>{{get() | titlecase}}</span>
+                Welcome <span>{{user.userName| titlecase}}</span>
             </a>
             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu mt-3" role="menu" aria-labelledby="button-basic">
                 <li role="menuitem"><a class="dropdown-item" routerLink="member/edit">Edit Profile</a></li>
@@ -51,3 +52,4 @@
 
 
 </nav>
+

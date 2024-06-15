@@ -44,7 +44,9 @@ builder.Services.AddScoped<IUserRepository,UserRepository>();
 //we use extension class for cleaning purpuses
 builder.Services.addIdentityService(config);
 
-
+// Add services to the container.
+builder.Services.Configure<CloudinarySetttings>(builder.Configuration.GetSection("CloudinarySettings"));
+builder.Services.AddScoped<IPhotoService,PhotoService>();
 
 
 

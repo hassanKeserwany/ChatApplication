@@ -17,9 +17,7 @@ export class NavComponent implements OnInit {
     password: '',
   };
 
-  namesss: string = '';
   //get user form local storage
-  getUserFromStorage: any;
   userNameFormStorage: string = '';
 
   constructor(
@@ -47,17 +45,4 @@ export class NavComponent implements OnInit {
     this.router.navigateByUrl('/');
   }
 
-  get() {
-    this.getUserFromStorage = localStorage.getItem('user');
-    if (this.getUserFromStorage != null) {
-      this.userNameFormStorage = JSON.parse(this.getUserFromStorage).userName;
-    }
-    return this.userNameFormStorage;
-  }
 }
-
-
-
-
- 
-

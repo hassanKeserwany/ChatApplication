@@ -19,6 +19,10 @@ import { ErrorInterceptor } from './_interceptors/ErrorInterceptor';
 import { MemberEditComponent } from './members/member-edit/member-edit.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './_interceptors/LoadingInterceptor';
+import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ToastModule } from 'primeng/toast';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -32,6 +36,7 @@ import { LoadingInterceptor } from './_interceptors/LoadingInterceptor';
     MessagesComponent,
     MemberCardComponent,
     MemberEditComponent,
+    PhotoEditorComponent,
   ],
   imports: [
     BrowserModule,
@@ -41,6 +46,9 @@ import { LoadingInterceptor } from './_interceptors/LoadingInterceptor';
     FormsModule,
     SharedModule,
     NgxSpinnerModule,
+    FileUploadModule,
+    ToastModule,
+    CommonModule,
   ],
   //src\assets\carousel-imgs
   //src\assets\carousel-imgs
@@ -48,6 +56,7 @@ import { LoadingInterceptor } from './_interceptors/LoadingInterceptor';
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    
   ],
   bootstrap: [AppComponent],
 })

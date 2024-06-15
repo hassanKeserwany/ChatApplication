@@ -9,11 +9,10 @@ import { environment } from '../../environments/environment';
 })
 export class AccountService {
   baseUrl: string = environment.apiUrl;
-//we will store the observable here , the type of observable is ReplaySubject,means
-//every time we subscribe to this observable, it emit the value inside it .
-  private currentUserSource =new ReplaySubject<User>(1);
-  currentUser$ =this.currentUserSource.asObservable();
-
+  //we will store the observable here , the type of observable is ReplaySubject,means
+  //every time we subscribe to this observable, it emit the value inside it .
+  private currentUserSource = new ReplaySubject<User>(1);
+  currentUser$ = this.currentUserSource.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -22,31 +21,28 @@ export class AccountService {
       map((response: User) => {
         const user = response;
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
         }
       })
     );
   }
 
-  setCurrentUser(user:User){
+  setCurrentUser(user: User) {
+    localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
   }
 
   logout() {
     localStorage.removeItem('user');
-    this.currentUserSource.next({username:'',token:''});
+    this.currentUserSource.next({ userName: '', token: '', photoUrl: '' });
     window.location.reload();
-
   }
-  registerService(modle:any){
-
+  registerService(modle: any) {
     return this.http.post<User>(this.baseUrl + 'Account/register', modle).pipe(
       map((response: User) => {
         const user = response;
         if (user) {
-          localStorage.setItem('user', JSON.stringify(user));
-          this.currentUserSource.next(user);
+          this.setCurrentUser(user);
         }
       })
     );
