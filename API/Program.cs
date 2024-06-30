@@ -39,7 +39,11 @@ builder.Services.AddScoped<ITokenService,TokenService>();
 
 //add service to repository pattern IUserRepository
 builder.Services.AddScoped<IUserRepository,UserRepository>();
+builder.Services.AddScoped<ILikesRepository, LikesRepository>();
 
+
+//add service LogUserActivity
+builder.Services.AddScoped<LogUserActivity>();
 //add authentication service , using extension method(api.extensions...)class
 //we use extension class for cleaning purpuses
 builder.Services.addIdentityService(config);

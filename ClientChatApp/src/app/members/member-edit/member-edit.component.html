@@ -26,12 +26,18 @@
 
                 </div>
                 <div>
-                    <strong>Member Active</strong>
-                    <p>{{member.lastActive}}</p>
+
+                    <p><strong>Gender : </strong>{{member.gender | uppercase}}</p>
+
                 </div>
                 <div>
-                    <strong>Member Since</strong>
-                    <p>{{member.createdAt}}</p>
+                    <i class=" fa fa-solid fa-circle"></i>
+                    <strong>Last Active </strong>
+                    <p>{{member.lastActive |timeago}}</p>
+                </div>
+                <div>
+                    <strong>Created At</strong>
+                    <p>{{member.createdAt | date:'mediumDate'}}</p>
                 </div>
 
             </div>
@@ -50,10 +56,14 @@
                     <h4 class="mt-3">Interests</h4>
                     <textarea [(ngModel)]="member.interests" class="mt-3 form-control" name="interests" cols="100%"
                         rows="3"></textarea>
+                    <label class="m-3" for="gender">Gender</label>
+                    <input [(ngModel)]="member.gender" type="text" name="gender" class="form-control m-3">
+
                     <h4 class="mt-3"> Location details</h4>
                     <div class="form-inline">
                         <label class="m-3" for="city">City</label>
                         <input [(ngModel)]="member.city" type="text" name="city" class="form-control m-3">
+
                         <label class="m-3" for="country">Country</label>
                         <input [(ngModel)]="member.country" type="text" name="country" class="form-control m-3">
                     </div>

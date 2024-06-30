@@ -4,7 +4,7 @@
   <div class="card flex justify-content-center">
     <p-toast></p-toast>
     <p-fileUpload name="file" [url]="baseUrl + 'users/add-Photo'" (onUpload)="onUpload($event)"
-      (onError)="onError($event)" [multiple]="true" [accept]="allowedFileTypes.join(',')"
+      (onError)="onError($event)" [multiple]="false" [accept]="allowedFileTypes.join(',')"
       [maxFileSize]="10 * 1024 * 1024" [headers]="getHeaders()">
       <ng-template pTemplate="content">
         <ul *ngIf="uploadedFiles.length">

@@ -44,7 +44,6 @@ export class PhotoEditorComponent implements OnInit {
     for (let file of event.files) {
       this.uploadedFiles.push(file);
     }
-
     this.messageService.add({
       severity: 'info',
       summary: 'File Uploaded',
@@ -52,11 +51,16 @@ export class PhotoEditorComponent implements OnInit {
     });
 
     // Assuming the backend returns the uploaded photo as part of the response
-    const uploadedPhoto = event.originalEvent.body; // or wherever the response is
+    const uploadedPhoto: Photo = event.originalEvent.body; // or wherever the response is
 
     // Add the uploaded photo to the MyMember.photos array
     this.MyMember.photos.push(uploadedPhoto);
-
+    
+    if (uploadedPhoto.isMain) {
+      this.user.photoUrl = uploadedPhoto.url;
+      this.MyMember.photoUrl = uploadedPhoto.url;
+      this.accountService.setCurrentUser(this.user);
+    }
     this.uploadedFiles = []; // Clear the uploaded files array
   }
 
@@ -67,9 +71,6 @@ export class PhotoEditorComponent implements OnInit {
           (x) => x.id !== photoId
         );
 
-        if (this.MyMember.photos.length == 1) {
-          this.SetMainPhoto(this.MyMember.photos[0]);
-        }
         if (this.MyMember.photos.length == 0) {
           this.MyMember.photoUrl = this.no_MainPhoto;
         }
@@ -104,7 +105,6 @@ export class PhotoEditorComponent implements OnInit {
         this.user.photoUrl = photo.url;
         this.accountService.setCurrentUser(this.user);
         this.MyMember.photoUrl = photo.url;
-        
 
         this.MyMember.photos.forEach((x) => {
           if (x.id == photo.id) {

@@ -14,8 +14,10 @@ import { ToastrService } from 'ngx-toastr';
 export class NavComponent implements OnInit {
   model: account = {
     username: '',
-    password: '',
+    password: 'password',
   };
+
+  emptyImage="/assets/carousel-imgs/Event-Image-Not-Found.jpg"
 
   //get user form local storage
   userNameFormStorage: string = '';
@@ -29,6 +31,7 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
+    
     this.accountService.login(this.model).subscribe(
       (response) => {
         this.router.navigateByUrl('/members');

@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { member } from '../../_models/member';
+import { MembersService } from '../../_services/members.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-member-card',
@@ -7,19 +9,19 @@ import { member } from '../../_models/member';
   styleUrl: './member-card.component.css',
 })
 export class MemberCardComponent implements OnInit {
-  @Input()
-  member!: member;
-  photoUrl: string = '';
-  constructor() {}
-  ngOnInit(): void {
-    this.checkMainPhoto();
-  }
+  @Input() member: any;
 
-  checkMainPhoto() {
-    if (this.member.photoUrl == null || this.member.photoUrl == '') {
-      this.photoUrl = '/assets/carousel-imgs/Event-Image-Not-Found.jpg';
-    } else {
-      this.photoUrl = this.member.photoUrl;
-    }
+  photoUrl: string = '';
+  constructor(
+    private memberService: MembersService,
+    private toaster: ToastrService
+  ) {}
+
+  ngOnInit(): void {}
+
+  addlike(member: member) {
+    this.memberService.addlikes(member.username).subscribe(() => {
+      this.toaster.success('You liked ' + member.knownAs);
+    });
   }
 }

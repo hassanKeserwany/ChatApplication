@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.IO;
+using API.Helper;
 
 namespace API.Data
 {
@@ -27,6 +28,8 @@ namespace API.Data
              *            reducing the amount of data transferred and improving performance. 
              *            => only used on the queryable collection (before -> Where)!!!
             */
+            //no need to use include because ProjectTo will get it .
+
             var member = await _context.Users
             .Where(x => x.UserName == username)
             .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
@@ -35,11 +38,31 @@ namespace API.Data
             
                 return member;
         }
-        public async Task<IEnumerable<MemberDto>> GetAllMembersAsync()
+        public async Task<PagedList<MemberDto>> GetAllMembersAsync(UserParams userParams)
         {
-            //no need to use include because ProjectTo will get it .
-            return await _context.Users
-                .ProjectTo<MemberDto>(_mapper.ConfigurationProvider).ToListAsync();
+            var query = _context.Users.AsQueryable();
+            query = query.Where(u => u.UserName != userParams.CurrentUserName);
+            //query = query.Where(u => u.Gender == userParams.Gender);
+            var minDOB =DateTime.Today.AddYears(- userParams.MaxAge -1); 
+            var maxDOb= DateTime.Today.AddYears(-userParams.MinAge );
+
+            query =query.Where(u=>u.DateOfBirth >= minDOB && u.DateOfBirth <= maxDOb);
+
+            query = userParams.OrderBy switch
+            {
+                "created" => query.OrderByDescending(u => u.CreatedAt),
+                "lastActive" => query.OrderByDescending(u => u.LastActive),
+                _ => query.OrderBy(u => u.UserName) // Default order
+            };
+            
+            if(userParams.Gender != null)
+            {
+                query = query.Where(u => u.Gender == userParams.Gender);
+
+            }
+
+            var result = query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider).AsNoTracking();
+            return await PagedList<MemberDto>.CreateAsync(result, userParams.PageNumber,userParams.PageSize);
         }
         
 

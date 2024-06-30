@@ -1,0 +1,78 @@
+/* Apply Flexbox to the row */
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content:space-around; */
+  }
+  
+  /* Ensure col-2 takes appropriate space in Flexbox layout */
+  .flex-container .col-2 {
+    /* Allows flex items to grow and shrink as needed */
+    flex: 1 1 auto; 
+    max-width: 200px; /* Adjust as needed based on design */
+    min-width: 150px; /* Adjust as needed based on design */
+    box-sizing: border-box;
+    padding: 10px; /* Optional: Adds spacing between cards */
+    margin-right: 10px;
+  }
+  
+  .FilterForm{
+    display: flex;
+    flex-wrap: wrap;
+  }
+  label , input{
+    margin: 15px ;
+  }
+
+/*animation for matches-found  */
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.8);
+  }
+  25% {
+    transform: scale(1.2);
+    text-shadow: 0 0 15px rgba(255, 0, 0, 1);
+  }
+  50% {
+    transform: scale(1);
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.9);
+  }
+  75% {
+    transform: scale(1.2);
+    text-shadow: 0 0 15px rgba(255, 0, 0, 1);
+  }
+}
+
+.matches-found {
+  display: inline-block;
+  font-family:cursive;
+  animation: heartbeat 2s infinite;
+  color: red;
+}
+.x{
+  font-family:'Courier New', Courier, monospace;
+}
+
+.applyFilter{
+  color: white;
+  background-color: rgb(8, 205, 14);
+  border-radius: 10px;
+
+}
+.fa-filter{
+  font-size: 30px;
+}
+
+.filteringForm {
+  max-height: 0;
+  overflow: hidden;
+  transition:  opacity 0.5s ease-in-out ;
+  
+  opacity: 0;
+}
+
+.filteringForm.show {
+  max-height: 100%;
+  opacity: 1;
+}

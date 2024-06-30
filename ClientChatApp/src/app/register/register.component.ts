@@ -1,41 +1,100 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AccountService } from '../_services/account.service';
-import { Form } from '@angular/forms';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {
+  FormGroup,
+  Validators,
+  ValidatorFn,
+  AbstractControl,
+  FormBuilder,
+  Form,
+} from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { AccountService } from '../_services/account.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
+  styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent implements OnInit {
-  model: any = {};
   @Output() cancelRegister = new EventEmitter();
+  registerForm!: FormGroup;
+  maxDate!: Date;
 
+  validationErrors:string[]=[];
   constructor(
     private accountService: AccountService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private fb: FormBuilder,
+    private router: Router
   ) {}
-  ngOnInit(): void {}
 
-  register(registerForm: any) {
-    this.accountService.registerService(this.model).subscribe(
-      (response) => {
-        console.log('user added successfully');
-        this.toastr.success('user added successfully ...');
+  ngOnInit(): void {
+    this.initializeForm();
+    this.maxDate = new Date();
+    this.maxDate.setFullYear(this.maxDate.getFullYear() - 18);
+  }
 
-        registerForm.reset(); //to reset the input
-        this.cancel();
+  initializeForm() {
+    this.registerForm = this.fb.group({
+      username: ['', Validators.required],
+      gender: ['male'],
+      knownAs: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
+      city: ['', Validators.required],
+      country: ['', Validators.required],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(15),
+        ],
+      ],
+      confirmPassword: [
+        '',
+        [Validators.required, this.matchValuePassword('password')],
+      ],
+    });
+
+    this.registerForm.controls['password'].valueChanges.subscribe(() => {
+      this.registerForm.controls['confirmPassword'].updateValueAndValidity();
+    });
+  }
+
+  matchValuePassword(matchTo: string): ValidatorFn {
+    return (control: AbstractControl) => {
+      return control?.value === control?.parent?.get(matchTo)?.value
+        ? null
+        : { isMatching: true };
+    };
+  }
+
+  register() {
+
+
+    const formValue = { ...this.registerForm.value };
+
+    // Format dateOfBirth to 'yyyy-MM-dd'
+    if (formValue.dateOfBirth) {
+      const date = new Date(formValue.dateOfBirth);
+      formValue.dateOfBirth = date.toISOString().split('T')[0];
+    }
+  
+    this.accountService.registerService(formValue).subscribe(
+      (res) => {
+        this.router.navigateByUrl('/members');
+        
       },
       (error) => {
+        this.validationErrors=error;
         console.log(error);
-        this.toastr.error("Please add a valid info ...");
       }
     );
   }
 
   cancel() {
-    //emit means send something
     this.cancelRegister.emit(false);
   }
 }
+

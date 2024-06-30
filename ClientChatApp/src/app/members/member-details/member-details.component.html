@@ -1,8 +1,8 @@
 <div class="row" *ngIf="member">
     <div class="col-4">
         <div class="card myCard">
-            <img src="{{member.photoUrl || '/assets/carousel-imgs/Event-Image-Not-Found.jpg'}} " alt="{{member.knownAs}}"
-                class="card-img-top img-thumnail">
+            <img src="{{member.photoUrl || '/assets/carousel-imgs/Event-Image-Not-Found.jpg'}} "
+                alt="{{member.knownAs}}" class="card-img-top img-thumnail">
             <div class="card-body">
                 <div>
                     <strong>Location</strong>
@@ -14,12 +14,17 @@
 
                 </div>
                 <div>
+
+                    <p><strong>Gender : </strong>{{member.gender | uppercase}}</p>
+
+                </div>
+                <div>
                     <strong>Member Active</strong>
-                    <p>{{member.lastActive}}</p>
+                    <p>{{member.lastActive |timeago}}</p>
                 </div>
                 <div>
                     <strong>Member Since</strong>
-                    <p>{{member.createdAt}}</p>
+                    <p>{{member.createdAt |date:'mediumDate'}}</p>
                 </div>
                 <div class="card-footer">
                     <div class="d-flex justify-content-between">
@@ -47,7 +52,7 @@
             </tab>
             <tab heading="Photos" id="tab1">
                 <div class="myGallery">
-                    <gallery  [showErrors]="showErrors" [errorText]="errorText" [objectFit]="objectFit"
+                    <gallery [showErrors]="showErrors" [errorText]="errorText" [objectFit]="objectFit"
                         [items]="images ">
                     </gallery>
                 </div>

@@ -34,7 +34,7 @@ export class AccountService {
 
   logout() {
     localStorage.removeItem('user');
-    this.currentUserSource.next({ userName: '', token: '', photoUrl: '' });
+    this.currentUserSource.next({ userName: '', token: '', photoUrl: '' ,knownAs:'',gender:''});
     window.location.reload();
   }
   registerService(modle: any) {
@@ -44,6 +44,7 @@ export class AccountService {
         if (user) {
           this.setCurrentUser(user);
         }
+        
       })
     );
   }

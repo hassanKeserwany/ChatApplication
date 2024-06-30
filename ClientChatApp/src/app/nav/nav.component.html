@@ -5,7 +5,7 @@
         <a class="navbar-brand moveUpDown" routerLink='/' routerLinkActive="active">Dating App</a>
 
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
-            <!--  -->
+            
             <ng-container *ngIf="(accountService.currentUser$|async)">
                 <li class="nav-item">
                     <a class="nav-link" routerLink="/members" routerLinkActive="active">Matches</a>
@@ -28,7 +28,7 @@
             <img src="{{user.photoUrl}} " class="userImage">
             <a id="button-basic" dropdownToggle type="link" class="dropdown-toggle  text-light"
                 aria-controls="dropdown-basic">
-                Welcome <span>{{user.userName| titlecase}}</span>
+                Welcome <span>{{user.knownAs| titlecase}}</span>
             </a>
             <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu mt-3" role="menu" aria-labelledby="button-basic">
                 <li role="menuitem"><a class="dropdown-item" routerLink="member/edit">Edit Profile</a></li>
@@ -43,9 +43,9 @@
         <form *ngIf="(accountService.currentUser$|async)===null " #loginForm="ngForm" class="d-flex"
             (ngSubmit)="login()" autocomplete="off">
             <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="Text"
-                placeholder="UserName">
+                placeholder="UserName" >
             <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password"
-                placeholder="Password">
+                placeholder="Password" value="password">
             <button class="btn btn-outline-success" type="submit">Login</button>
         </form>
     </div>
