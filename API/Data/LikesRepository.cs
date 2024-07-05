@@ -17,13 +17,13 @@ namespace API.Data
 
         public async Task<userLike> getUserlike(int sourceUserId, int targetUserId)
         {
-             return await _context.UserLikes.FindAsync(sourceUserId, targetUserId);
+             return await _context.Likes.FindAsync(sourceUserId, targetUserId);
         }
 
         public async Task<PagedList<LikeDto>> Get_All_User_Likes(LikesParams likesParams)
         {
             var users = _context.Users.OrderBy(u => u.UserName).AsQueryable();
-            var likes = _context.UserLikes.AsQueryable();
+            var likes = _context.Likes.AsQueryable();
 
             if(likesParams.Predicate == "liked") { 
                 likes =likes.Where(like=>like.SourceUserId == likesParams.UserId);

@@ -4,6 +4,7 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240630064616_add-Messages-entity")]
+    partial class addMessagesentity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -111,7 +114,11 @@ namespace API.Migrations
                     b.Property<bool>("SenderDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int>("SenderId")
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SenderId1")
                         .HasColumnType("int");
 
                     b.Property<string>("SenderUserName")
@@ -126,7 +133,7 @@ namespace API.Migrations
 
                     b.HasIndex("RecipientId");
 
-                    b.HasIndex("SenderId");
+                    b.HasIndex("SenderId1");
 
                     b.ToTable("Messages");
                 });
@@ -185,7 +192,7 @@ namespace API.Migrations
 
                     b.HasOne("API.Entities.AppUser", "Sender")
                         .WithMany("MessagesSent")
-                        .HasForeignKey("SenderId")
+                        .HasForeignKey("SenderId1")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

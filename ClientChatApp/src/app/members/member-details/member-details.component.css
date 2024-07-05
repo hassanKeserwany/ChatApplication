@@ -22,28 +22,12 @@ border-top: none;
     padding: 0;
     margin: 10px 0 0 0;
 }
-.myCard .fa-heart{
-    color: black
-}
-.myCard .fa-envelope{
-    color: rgb(41, 131, 241);
+.fa-heart , .fa-envelope{
+  cursor: pointer;
 }
 
-
-/*  */
-
-.myGallery{
-    width: 100%;
-    object-fit:fill;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Add shadow */
-
-
-}
-.myGallery gallery{
-    width: 100%;
-}
 /* heart beats animation */
-.fa-heart {
+.fa-heart:hover {
     color: red;
     font-size: 100px;
     animation: heartbeat 7s infinite;
@@ -59,10 +43,10 @@ border-top: none;
   }
 
   /* envelope animation */
-  .fa-envelope {
+  .fa-envelope:hover {
     color: #007bff;
     font-size: 100px;
-    animation: bounce 4s infinite;
+    animation: bounce 1s infinite;
   }
 
   @keyframes bounce {
@@ -76,3 +60,13 @@ border-top: none;
       transform: translateY(-10px);
     }
   }
+
+  /* myGallery */
+  .myGallery{
+    width: 100%;
+    object-fit:fill;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Add shadow */
+}
+.myGallery gallery{
+    width: 100%;
+}

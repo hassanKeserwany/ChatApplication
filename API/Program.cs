@@ -40,6 +40,8 @@ builder.Services.AddScoped<ITokenService,TokenService>();
 //add service to repository pattern IUserRepository
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<ILikesRepository, LikesRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepostory>();
+
 
 
 //add service LogUserActivity

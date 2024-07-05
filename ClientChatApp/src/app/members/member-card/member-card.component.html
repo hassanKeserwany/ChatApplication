@@ -10,8 +10,8 @@
                 <i class="fa fa-heart"(click)="addlike(member)"
                 ></i>
             </li>
-            <li class="list-inline-item">
-                <i class="fa fa-envelope"></i>
+            <li class="list-inline-item" routerLink="/member/username/{{member.username}}" [queryParams]="{tab:3}">
+                <i class="fa fa-envelope" ></i>
             </li>
         </ul>
     </div>
