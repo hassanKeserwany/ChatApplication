@@ -1,13 +1,15 @@
-﻿using API.Extensions;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
 namespace API.Entities
 {
-    public class AppUser
+    public class AppUser:IdentityUser<int>
     {
-        public int Id { get; set; }
+        /*public int Id { get; set; }
         public string UserName { get; set; }
         public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        public byte[] PasswordSalt { get; set; }*/
+        //we dont need these properties because already found in IdentityUser
         public DateTime DateOfBirth { get; set; } 
         public string KnownAs { get; set; }
         public DateTime CreatedAt { get; set; }= DateTime.Now;
@@ -24,6 +26,9 @@ namespace API.Entities
         public ICollection<Message> MessagesSent { get; set; }
         public ICollection<Message> MessagesReceived { get; set; }
 
+        [JsonIgnore] // This prevents circular reference during serialization
+
+        public ICollection<AppUserRole> UserRoles { get; set; }
 
 
 

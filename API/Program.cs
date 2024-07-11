@@ -5,7 +5,10 @@ using API.Helper;
 using API.Interfaces;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -31,8 +34,9 @@ builder.Services.AddDbContext<DataContext>(options =>
 
 
 
-//add service for autoMapper
-builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
+
+    //add service for autoMapper
+    builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
 //add ITokenService interface to Dep.injection services
 builder.Services.AddScoped<ITokenService,TokenService>();
@@ -55,19 +59,19 @@ builder.Services.Configure<CloudinarySetttings>(builder.Configuration.GetSection
 builder.Services.AddScoped<IPhotoService,PhotoService>();
 
 
-
-// Add CORS policy
+// Add CORS services
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", policy =>
+    options.AddPolicy("AllowAll", builder =>
     {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
+        builder.AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader();
     });
 });
-var app =builder.Build();
 
+
+var app =builder.Build();
 
 
 // Configure the HTTP request pipeline.
@@ -87,4 +91,28 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+//app.Run();
+
+
+
+//seed roles for users
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<DataContext>();
+        var userManager = services.GetRequiredService<UserManager<AppUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
+
+        await context.Database.MigrateAsync();
+        await Seed.SeedRoles(roleManager); // Call the SeedRoles method
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred during migration");
+    }
+}
+
+await app.RunAsync();

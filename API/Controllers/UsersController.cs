@@ -10,12 +10,9 @@ using API.Extensions;
 
 namespace API.Controllers
 {
-    [ServiceFilter(typeof(LogUserActivity))]
-    [ApiController]
-    [Route("api/[controller]")]
 
     [Authorize] //now all the methods will be protected by authorization
-    public class UsersController : ControllerBase
+    public class UsersController : BaseApiController
     {
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
@@ -27,7 +24,7 @@ namespace API.Controllers
             _mapper = mapper;
             _photoService = photoService;
         }
-
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MemberDto>>> GetUsers([FromQuery]UserParams userParams)
         {
@@ -48,7 +45,11 @@ namespace API.Controllers
 
             return Ok(users);
         }
-
+        /*[HttpGet]
+        public string Get()
+        {
+            return "hello";
+        }*/
 
         [HttpGet("username/{username}", Name = "GetUserByUsername")]
         public async Task<ActionResult<MemberDto>> GetByUsername(string username)

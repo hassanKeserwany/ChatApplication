@@ -9,10 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
-    public class LikesController : ControllerBase
+    
+    public class LikesController : BaseApiController
     {
         private readonly IUserRepository _userRepository;
         private readonly ILikesRepository _likesRepository;

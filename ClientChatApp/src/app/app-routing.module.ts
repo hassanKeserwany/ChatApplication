@@ -10,6 +10,8 @@ import { MemberEditComponent } from './members/member-edit/member-edit.component
 import { PreventUnsavedChangesGuard } from './_guards/prevent-unsaved-changes.guard';
 import { PhotoEditorComponent } from './members/photo-editor/photo-editor.component';
 import { MemberDetaildResolver } from './_resolvers/member-detaild-resolver';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { adminGuard } from './_guards/admin.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,13 +21,26 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     children: [
       { path: 'members', component: MemberListComponent },
-      { path: 'member/username/:username', component: MemberDetailsComponent,resolve:{member:MemberDetaildResolver} },
-      { path: 'member/edit', component: MemberEditComponent ,canDeactivate:[PreventUnsavedChangesGuard] },
+      {
+        path: 'member/username/:username',
+        component: MemberDetailsComponent,
+        resolve: { member: MemberDetaildResolver },
+      },
+      {
+        path: 'member/edit',
+        component: MemberEditComponent,
+        canDeactivate: [PreventUnsavedChangesGuard],
+      },
       { path: 'lists', component: ListsComponent },
       { path: 'messages', component: MessagesComponent },
+      {
+        path: 'admin',
+        component: AdminPanelComponent,
+        canActivate: [adminGuard],
+      },
     ],
   },
-
+  
   { path: '**', component: HomeComponent, pathMatch: 'full' },
 ];
 

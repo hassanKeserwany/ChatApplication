@@ -11,10 +11,8 @@ using System.Security.Claims;
 
 namespace API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize]
-    public class MessagesController : ControllerBase
+   
+    public class MessagesController : BaseApiController
     {
         private readonly IMessageRepository _messageRepository;
         private readonly IUserRepository _userRepository;
