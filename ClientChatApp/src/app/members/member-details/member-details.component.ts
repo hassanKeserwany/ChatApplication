@@ -1,6 +1,7 @@
 import {
   Component,
   Input,
+  OnDestroy,
   OnInit,
   TemplateRef,
   ViewChild,
@@ -8,11 +9,15 @@ import {
 } from '@angular/core';
 import { member } from '../../_models/member';
 import { MembersService } from '../../_services/members.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GalleryItem, ObjectFit } from '@daelmaak/ngx-gallery';
 import { TabDirective, TabsetComponent } from 'ngx-bootstrap/tabs';
 import { MessageService } from '../../_services/message.service';
 import { Message } from '../../_models/message';
+import { PresenceService } from '../../_services/presence.service';
+import { AccountService } from '../../_services/account.service';
+import { take } from 'rxjs';
+import { User } from '../../_models/User';
 
 @Component({
   selector: 'app-member-details',
@@ -20,14 +25,14 @@ import { Message } from '../../_models/message';
   styleUrl: './member-details.component.css',
   //standalone: true,
 })
-export class MemberDetailsComponent implements OnInit {
+export class MemberDetailsComponent implements OnInit ,OnDestroy {
   @ViewChild('memberTabs', { static: true }) memberTabs!: TabsetComponent;
 
   activeTab!: TabDirective;
   member!: member;
   message: Message[] = [];
   images: GalleryItem[] = [];
-
+  user!:User;
   //options for the gallery
   @Input() objectFit: ObjectFit = 'contain';
   @Input() errorText?: string;
@@ -37,8 +42,15 @@ export class MemberDetailsComponent implements OnInit {
   constructor(
     private memberService: MembersService,
     private route: ActivatedRoute,
-    private messageService: MessageService
-  ) {}
+    private messageService: MessageService,
+    public presence:PresenceService,
+    public accountService:AccountService,
+    private router:Router
+  ) {
+    this.accountService.currentUser$.pipe(take(1)).subscribe(user=>this.user=user);
+    this.router.routeReuseStrategy.shouldReuseRoute=()=>false;
+  }
+
 
   ngOnInit(): void {
     // this.loadMember();
@@ -91,13 +103,23 @@ export class MemberDetailsComponent implements OnInit {
     return imageUrls;
   }
 
+  selectTab(tabId:number){
+    this.memberTabs.tabs[tabId].active=true;
+  }
+
+
   onTabActivated(data: TabDirective) {
     this.activeTab = data;
     if (this.activeTab.heading === 'Messages' && this.message.length === 0) {
-      this.loadMessages();
+     // this.loadMessages(); // we will get messages from SignalR messages
+     this.messageService.createHubConnection(this.user,this.member.username)
+    }
+    else{
+      this.messageService.stopHubConnection()
     }
   }
-  selectTab(tabId:number){
-    this.memberTabs.tabs[tabId].active=true;
+  
+  ngOnDestroy (): void {
+      this.messageService.stopHubConnection()
   }
 }

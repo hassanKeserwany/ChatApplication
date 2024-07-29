@@ -23,12 +23,21 @@
   }
 }
 
-
-.text{
+.text {
   color: white;
 }
+.menu-options {
+  display: flex;
+  justify-content: center; /* Centers items horizontally */
+  align-items: center; /* Centers items vertically */
+  font-size: 14px;
+  margin-left: 15px;
+}
+.dropdownList  a{
+  font-size: 14px;
+}
 
-.dropdown .userImage{
+.dropdown .userImage {
   border: 3px solid black;
   width: 40px;
   height: 40px;
@@ -36,7 +45,20 @@
   border-radius: 50%;
 }
 
-.navbar{
+.navbar {
   display: flex;
   flex-wrap: wrap;
+}
+
+@media screen and (max-width: 700px) {
+  .dropdown .userImage{
+    display: none;
+  }
+  .DatingApp {
+    font-size: 16px;
+  }
+  .Welcome {
+    font-size: 12px;
+  }
+
 }

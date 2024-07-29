@@ -1,10 +1,6 @@
 ﻿using API.Extensions;
 using API.Interfaces;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Security.Claims;
-using System.Threading.Tasks;
 
 namespace API.Helper
 {
@@ -14,30 +10,14 @@ namespace API.Helper
         {
             var resultContext = await next();
 
-            // Check if user is authenticated
-            if (! resultContext.HttpContext.User.Identity.IsAuthenticated)
-                return;
+            if (!resultContext.HttpContext.User.Identity.IsAuthenticated) return;
 
-            // Retrieve the user ID from the claims
-            var userIdClaim = resultContext.HttpContext.User.GetUserId();
-            var userId =userIdClaim.Value;
+            var userId = resultContext.HttpContext.User.GetUserId();
 
-            // Get repository service
-            var repo = resultContext.HttpContext.RequestServices.GetService<IUserRepository>();
-
-            // Get user from repository by user ID
-            var user = await repo.GetUserByIdAsync(userId);
-
-            if (user != null)
-            {
-                // Update user's last active timestamp
-                user.LastActive = DateTime.Now;
-                await repo.SaveAllAsync();
-            }
-            else
-            {
-                Console.WriteLine($"User with ID {userId} not found.");
-            }
+            var uow = resultContext.HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
+            var user = await uow.UserRepository.GetUserByIdAsync(userId.Value);
+            user.LastActive = DateTime.UtcNow;
+            await uow.Complete();
         }
     }
 }

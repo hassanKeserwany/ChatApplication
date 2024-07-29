@@ -11,7 +11,7 @@
         </label>
     </div>
 
-    <app-text-input [formControl]="$any(registerForm.controls['username'])" [label]="'Username'"></app-text-input>
+    <app-text-input  [formControl]="$any(registerForm.controls['username'])" [label]="'Username'"></app-text-input>
     <app-text-input [formControl]="$any(registerForm.controls['knownAs'])" [label]="'known as'"></app-text-input>
     <app-date-input [formControl]="$any(registerForm.controls['dateOfBirth'])" [label]="'date Of Birth'"
         [maxDate]='maxDate'></app-date-input>

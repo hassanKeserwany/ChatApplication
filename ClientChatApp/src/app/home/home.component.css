@@ -1,0 +1,17 @@
+.register-App{
+    justify-content: center;
+}
+@media screen and (max-width: 767px) {
+    .register-App{
+        justify-content: start;
+    }
+    h1{
+        font-size: 20px;
+    }
+    p{
+        font-size: 14px;
+    }
+    button{
+        font-size: 18px;
+    }
+}

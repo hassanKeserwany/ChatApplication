@@ -10,25 +10,54 @@ import { NgForm } from '@angular/forms';
 })
 export class MemberMessagesComponent implements OnInit {
   @ViewChild('messageForm') messageForm!: NgForm;
-  @Input() messages!: Message[];
-  @Input() username!: string;
+  @ViewChild('scrollMe') scrollMe: any;
 
-  //loading: boolean=false;
-  messageContent!: string;
+  @Input() username!: string;
+  @Input() messages!: Message[];
+
+
+  loading=false;
+  messageContent: string='';
 
   scrollTop!: number;
-  constructor(private messageService: MessageService ,private cdr: ChangeDetectorRef) {}
+
+  constructor(public messageService: MessageService ,private cdr: ChangeDetectorRef) {
+    //this.messageService.messageThread$.subscribe(res=>{ this.messages=res; })
+
+  }
   ngOnInit(): void {
- 
+    this.messageService.messageThread$.subscribe(res => {
+      this.messages = res;
+    });
   }
 
-  sendMessage() {
-    this.messageService.sendMessage(this.username, this.messageContent).subscribe((message) => {
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
+  }
 
-      this.messages.push(message);
-      this.messageForm.reset();
+  scrollToBottom(): void {
+    try {
+      this.scrollMe.nativeElement.scrollTop = this.scrollMe.nativeElement.scrollHeight;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+//   sendMessage() {
+//     this.messageService.sendMessage(this.username, this.messageContent).then((message) => {
+
+//       this.messages.push(message);
+//       this.messageForm.reset();
       
-  })
+//   })
+// }
+
+sendMessage() {
+  if (!this.username) return;
+  this.loading = true;
+  this.messageService.sendMessage(this.username, this.messageContent).then(() => {
+    this.messageForm?.reset();
+  }).finally(() => this.loading = false);
 }
 
   deleteMessage(id: number) {

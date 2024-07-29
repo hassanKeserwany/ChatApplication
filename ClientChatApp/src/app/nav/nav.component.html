@@ -2,9 +2,9 @@
 
     <div class="container">
 
-        <a class="navbar-brand moveUpDown" routerLink='/' routerLinkActive="active">Dating App</a>
+        <a class="navbar-brand moveUpDown DatingApp" routerLink='/' routerLinkActive="active">Dating App</a>
 
-        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <!-- <ul class="navbar-nav me-auto mb-2 mb-md-0">
             
             <ng-container *ngIf="(accountService.currentUser$|async)">
                 <li class="nav-item">
@@ -24,12 +24,70 @@
                 </li>
             </ng-container>
 
+        </ul> -->
+
+
+
+ <!-- Dropdown menu for small screens (visible on screens < md) -->
+ <ng-container *ngIf="(accountService.currentUser$ | async)" dropdown>
+    <div class="nav-item dropdown d-md-none  ">
+        <a class="nav-link dropdown-toggle text-light menu-options " type="link" id="navbarDropdown" role="button" dropdownToggle
+            aria-controls="dropdown-basic">
+            Menu
+        </a>
+        <ul class="dropdown-menu dropdownList" *dropdownMenu role="menu" aria-labelledby="button-basic">
+            <li>
+                <a class="dropdown-item" routerLink="/members" routerLinkActive="active">Matches</a>
+            </li>
+            <li>
+                <a class="dropdown-item" routerLink="/lists" routerLinkActive="active">Lists</a>
+            </li>
+            <li>
+                <a class="dropdown-item" routerLink="/messages" routerLinkActive="active">Messages</a>
+            </li>
+            <li *appHasRole="['Admin','Moderator']">
+                <a class="dropdown-item" routerLink="/admin" routerLinkActive="active">Admin</a>
+            </li>
+
         </ul>
+    </div>
+</ng-container>
+
+
+
+
+
+
+
+
+
+        <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <!-- Regular navigation items (visible on screens >= md) -->
+            <ng-container *ngIf="(accountService.currentUser$|async)">
+                <li class="nav-item d-none d-md-block">
+                    <a class="nav-link" routerLink="/members" routerLinkActive="active">Matches</a>
+                </li>
+                <li class="nav-item d-none d-md-block">
+                    <a class="nav-link" routerLink="/lists" routerLinkActive="active">Lists</a>
+                </li>
+                <li class="nav-item d-none d-md-block">
+                    <a class="nav-link " routerLink="/messages" routerLinkActive="active">Messages</a>
+                </li>
+                <li class="nav-item d-none d-md-block" *appHasRole="['Admin','Moderator']">
+                    <a class="nav-link " routerLink="/admin" routerLinkActive="active">Admin</a>
+                </li>
+                <li class="nav-item d-none d-md-block">
+                    <a class="nav-link " (click)="logout()">Logout</a>
+                </li>
+            </ng-container>
+
+        </ul>
+
 
 
         <div class="dropdown" *ngIf="(accountService.currentUser$|async) as user" dropdown>
             <img src="{{user.photoUrl}} " class="userImage">
-            <a id="button-basic" dropdownToggle type="link" class="dropdown-toggle  text-light"
+            <a id="button-basic" dropdownToggle type="link" class="dropdown-toggle  text-light Welcome"
                 aria-controls="dropdown-basic">
                 Welcome <span>{{user.knownAs| titlecase}}</span>
             </a>
@@ -46,7 +104,7 @@
         <form *ngIf="(accountService.currentUser$|async)===null " #loginForm="ngForm" class="d-flex"
             (ngSubmit)="login()" autocomplete="off">
             <input name="username" [(ngModel)]="model.username" class="form-control me-2" type="Text"
-                placeholder="UserName" >
+                placeholder="UserName">
             <input name="password" [(ngModel)]="model.password" class="form-control me-2" type="password"
                 placeholder="Password" value="password">
             <button class="btn btn-outline-success" type="submit">Login</button>
@@ -54,5 +112,6 @@
     </div>
 
 
-</nav>
+    
 
+</nav>

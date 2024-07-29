@@ -20,7 +20,10 @@ namespace API.Data
         //public DbSet<AppUser> Users { get; set; } //remove it because IdentityDbContext provides it
         public DbSet<Photo> Photos { get; set; }
         public DbSet<userLike> Likes { get; set; }
-        public DbSet<Message> Messages { get; set; }    
+        public DbSet<Message> Messages { get; set; }  
+        public DbSet<Group> Groups { get; set; }
+
+        public DbSet<Connection> Connections { get; set; }
 
 
 

@@ -43,7 +43,7 @@
 .member-icons li i{
     color: white;
     cursor: pointer;
-    text-shadow: 2px 2px 6px red; /* Add a subtle black shadow */
+    text-shadow: 2px 2px 6px black /* Add a subtle black shadow */
 
 }
 .card:hover .member-icons{
@@ -66,4 +66,15 @@
 }
 .animate{
     transition: all 0.5s ease-in-out;
+}
+@keyframes fa-blink {
+    0%{opacity: 1;}
+    100%{opacity: 0.4;}
+}
+.is-online{
+    animation: fa-blink 1.5s linear infinite;
+    color: green;
+}
+.is-offline{
+    color: red;
 }

@@ -22,13 +22,15 @@
 
 <div class="row ">
   <div class=" col-3" *ngFor="let photo of MyMember.photos">
-    <div class="image-wrapper ">
-      <img src="{{photo.url || '/assets/carousel-imgs/Event-Image-Not-Found.jpg'}} " alt="{{photo.url}}"
-        class="img-thumbnail ">
-      <div class="text-overlay ">
-        <i [ngClass]="{'disabled': photo.isMain, 'enabled': !photo.isMain} " class="fa fa-regular fa-id-badge p-1 m-1" (click)="SetMainPhoto(photo)"></i>
-        <i class="fa fa-trash p-1 m-1" (click)="deletePhoto(photo.id)"></i>
-
+    <div class="imagesEditor">
+      <div class="image-wrapper ">
+        <img src="{{photo.url || '/assets/carousel-imgs/Event-Image-Not-Found.jpg'}} " alt="{{photo.url}}"
+          class="img-thumbnail ">
+        <div class="text-overlay ">
+          <i [ngClass]="{'disabled': photo.isMain, 'enabled': !photo.isMain} " class="fa fa-regular fa-id-badge p-1 m-1" (click)="SetMainPhoto(photo)"></i>
+          <i class="fa fa-trash p-1 m-1" (click)="deletePhoto(photo.id)"></i>
+  
+        </div>
       </div>
     </div>
   </div>

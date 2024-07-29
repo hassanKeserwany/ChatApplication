@@ -1,72 +1,164 @@
-.myCard{
-    width:250px;
-    border-radius: 15px;
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
-
+* {
+  box-sizing: border-box;
+}
+.myCard {
+  width: 250px;
+  border-radius: 15px;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); /* Add shadow */
 }
 
-.myCard img{
-    width: 100%;
-    border-radius: 15px 15px 0 0;
-    transform: scale(1.0,1.0);
-    transition-duration:500ms ;
-    transition-timing-function: ease-out;
+.myCard img {
+  width: 100%;
+  border-radius: 15px 15px 0 0;
+  transform: scale(1, 1);
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
 }
-.myCard .card-footer{
-padding: 10px 25px;
-background-color:#fff ;
-border-top: none;
+.myCard .card-footer {
+  padding: 10px 25px;
+  background-color: #fff;
+  border-top: none;
 }
-.myCard .fa{
-    font-size: 40px;
+@media screen and (max-width: 767px) {
+  .myCard {
+    width: 170px;
+  }
+
+  strong {
+    font-size: 18px;
+  }
+  p {
+    font-size: 15px;
+  }
+  .fa-heart,
+  .fa-envelope {
+    display: block;
+  }
+}
+@media screen and (max-width: 500px) {
+  .myCard {
+    width: 170px;
+  }
+
+  strong {
+    font-size: 15px;
+  }
+  p {
+    font-size: 12px;
+  }
+  .fa-heart,
+  .fa-envelope {
+    display: block;
+  }
+}
+@media screen and (max-width: 480px) {
+  .myCard {
+    width: 100px;
+  }
+ 
+  strong {
+    font-size: 12px;
+  }
+  p {
+    font-size: 10px;
+  }
+  .messageContent{
+    font-size: 15px;
+    color: red;
+  }
+  .myCard[_ngcontent-ng-c2591170315] .fa-heart[_ngcontent-ng-c2591170315],
+  .myCard[_ngcontent-ng-c2591170315] .fa-envelope[_ngcontent-ng-c2591170315] {
+    display: flex;
+    justify-content: space-evenly;
+    margin-right: 10px;
+    font-size: 20px;
+  }
+  .myCard[_ngcontent-ng-c2591170315] .card-footer[_ngcontent-ng-c2591170315]{
     padding: 0;
-    margin: 10px 0 0 0;
+  }
+  
 }
-.fa-heart , .fa-envelope{
+
+.nav-tabs .nav-link{
+    font-size: 12px;
+  color: red;
+}
+.myCard .fa-heart,
+.myCard .fa-envelope {
+  font-size: 40px;
+  padding: 0;
+  margin: 10px 0 0 0;
+}
+.fa-heart,
+.fa-envelope {
   cursor: pointer;
+}
+
+.fa-globe {
+  font-size: 25px;
+  padding-right: 10px;
+  animation: heartbeat 7s infinite;
+}
+.onlineSpan {
+  font-family: monospace;
+  color: green;
+  font-weight: 800;
 }
 
 /* heart beats animation */
 .fa-heart:hover {
-    color: red;
-    font-size: 100px;
-    animation: heartbeat 7s infinite;
-  }
-
-  @keyframes heartbeat {
-    0%, 20%, 40%, 60%, 80%, 100% {
-      transform: scale(1);
-    }
-    10%, 30%, 50%, 70%, 90% {
-      transform: scale(1.2);
-    }
-  }
-
-  /* envelope animation */
-  .fa-envelope:hover {
-    color: #007bff;
-    font-size: 100px;
-    animation: bounce 1s infinite;
-  }
-
-  @keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {
-      transform: translateY(0);
-    }
-    40% {
-      transform: translateY(-20px);
-    }
-    60% {
-      transform: translateY(-10px);
-    }
-  }
-
-  /* myGallery */
-  .myGallery{
-    width: 100%;
-    object-fit:fill;
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Add shadow */
+  color: red;
+  font-size: 100px;
+  animation: heartbeat 7s infinite;
 }
-.myGallery gallery{
-    width: 100%;
+
+@keyframes heartbeat {
+  0%,
+  20%,
+  40%,
+  60%,
+  80%,
+  100% {
+    transform: scale(1);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: scale(1.2);
+  }
+}
+
+/* envelope animation */
+.fa-envelope:hover {
+  color: #007bff;
+  font-size: 100px;
+  animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-20px);
+  }
+  60% {
+    transform: translateY(-10px);
+  }
+}
+
+/* myGallery */
+.myGallery {
+  width: 100%;
+  object-fit: fill;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Add shadow */
+}
+.myGallery gallery {
+  width: 100%;
 }

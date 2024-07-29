@@ -40,3 +40,67 @@ input {
   color: green;
   font-size: 10px;
 }
+
+
+
+@media screen and (max-width: 990px) {
+  .myCard{
+    width: 200px;
+   }
+  
+  strong{
+   font-size:18px ;
+  }
+  p{
+   font-size:15px ;
+  }
+}
+
+@media screen and (max-width: 767px) {
+ 
+  .myCard{
+    width: 150px;
+   
+  }
+  strong{
+   font-size:16px ;
+  }
+  p{
+   font-size:14px ;
+  }
+}
+
+  @media screen and (max-width: 500px) {
+    
+    .myCard{
+      width: 130px;
+     }
+    
+    strong{
+     font-size:13px ;
+    }
+    p{
+     font-size:11px ;
+    }
+
+    form h4{
+      font-size: 16px;
+    }
+    
+    .member-tabset > .nav-tabs > li.active > a {
+      font-size: 12px;
+    }
+  }
+  @media screen and (max-width: 430px) {
+    .myCard{
+      width: 80px;
+     }
+     strong{
+      font-size:11px ;
+     }
+     p{
+      font-size:10px ;
+     }
+     
+  }
+

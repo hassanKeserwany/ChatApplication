@@ -4,6 +4,7 @@ using API.Extenstions;
 using API.Helper;
 using API.Interfaces;
 using API.Services;
+using API.SignalR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -41,11 +42,13 @@ builder.Services.AddDbContext<DataContext>(options =>
 //add ITokenService interface to Dep.injection services
 builder.Services.AddScoped<ITokenService,TokenService>();
 
-//add service to repository pattern IUserRepository
-builder.Services.AddScoped<IUserRepository,UserRepository>();
-builder.Services.AddScoped<ILikesRepository, LikesRepository>();
-builder.Services.AddScoped<IMessageRepository, MessageRepostory>();
 
+//we dont need these service any more , replace them with
+//add service to repository pattern IUserRepository
+/*builder.Services.AddScoped<IUserRepository,UserRepository>();
+builder.Services.AddScoped<ILikesRepository, LikesRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();*/
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 //add service LogUserActivity
@@ -53,6 +56,9 @@ builder.Services.AddScoped<LogUserActivity>();
 //add authentication service , using extension method(api.extensions...)class
 //we use extension class for cleaning purpuses
 builder.Services.addIdentityService(config);
+
+//add signalR 
+builder.Services.AddSignalR();
 
 // Add services to the container.
 builder.Services.Configure<CloudinarySetttings>(builder.Configuration.GetSection("CloudinarySettings"));
@@ -62,13 +68,15 @@ builder.Services.AddScoped<IPhotoService,PhotoService>();
 // Add CORS services
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAll", builder =>
+    options.AddPolicy("AllowAll", policyBuilder =>
     {
-        builder.AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
+        policyBuilder.AllowCredentials()
+                     .AllowAnyMethod()
+                     .AllowAnyHeader()
+                     .WithOrigins("https://localhost:4200");
     });
 });
+
 
 
 var app =builder.Build();
@@ -86,10 +94,19 @@ app.UseRouting();
 // Use CORS
 app.UseCors("AllowAll");
 
+
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+//app.MapControllers();
+//app.MapHub<PresenceHub>("hubs/presence");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    endpoints.MapHub<PresenceHub>("/hubs/presence");
+    endpoints.MapHub<MessageHub>("/hubs/message");
+
+});
 
 //app.Run();
 
@@ -100,6 +117,7 @@ using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
+
     {
         var context = services.GetRequiredService<DataContext>();
         var userManager = services.GetRequiredService<UserManager<AppUser>>();

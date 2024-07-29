@@ -8,7 +8,9 @@
 .card {
   border: none;
 }
-
+.imagesEditor {
+  display: flex;
+}
 .image-wrapper {
   position: relative;
   display: inline-block;
@@ -88,5 +90,41 @@
 
   100% {
     transform: rotate(3deg);
+  }
+}
+
+@media screen and (max-width: 990px) {
+}
+
+@media screen and (max-width: 767px) {
+  .text-overlay[_ngcontent-ng-c3698101358] h6[_ngcontent-ng-c3698101358],
+  .text-overlay[_ngcontent-ng-c3698101358] i[_ngcontent-ng-c3698101358] {
+    font-size: 18px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .image-wrapper img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .text-overlay[_ngcontent-ng-c3698101358] h6[_ngcontent-ng-c3698101358],
+  .text-overlay[_ngcontent-ng-c3698101358] i[_ngcontent-ng-c3698101358] {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 430px) {
+  .image-wrapper img {
+    width: 60px;
+    height: 60px;
+  }
+  .text-overlay i {
+    font-size: 1px;
+    color: red;
+  }
+  .p-fileupload .p-fileupload-buttonbar .p-button{
+    font-size: 10px;
+    width: 20px;
   }
 }
