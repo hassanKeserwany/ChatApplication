@@ -17,6 +17,7 @@ namespace API.Interfaces
         Task<Group> GetMessageGroup(string groupName);
         Task<Group> GetGroupForConnection(string connectionId);
 
+        Task MarkMessagesAsDeletedForUserAsync(string username1, string username2);
 
         //Task<bool> SaveAllAsync();
     }

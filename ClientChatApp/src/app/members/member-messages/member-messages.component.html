@@ -1,10 +1,14 @@
+<span class="ClearHistory btn" (click)="deleteConversation()"> Clear History</span>
+
 <div class="card">
-    <div class="card-body" #scrollMe style="overflow: scroll;">
+    
+    <div class="card-body ">
         <div class="noMessages" *ngIf="(messageService.messageThread$ | async)?.length === 0">
             No messages yet... say hi by using the message box below
         </div>
 
-        <ul class="chat " *ngIf="(messageService.messageThread$ | async)!.length > 0">
+        <ul #scrollMe style="overflow: scroll ;height: 500px;" [scrollTop]="scrollMe.scrollHeight" class="chat p-3"
+            *ngIf="(messageService.messageThread$ | async)!.length > 0">
             <li *ngFor="let message of (messageService.messageThread$ | async)">
                 <div>
                     <div class="d-flex justify-content-between">
@@ -19,15 +23,17 @@
                                     <span class="fa fa-clock-o"> {{message.messageSent | timeago}}</span>
                                     <span class="text-danger" *ngIf="!message.dateRead 
                                     && message.senderUserName !== username">
-                                    (unread)</span>
-                                <span class="text-success" *ngIf="message.dateRead 
+                                        (unread)</span>
+                                    <span class="text-success" *ngIf="message.dateRead 
                                     && message.senderUserName !== username">
-                                    (read {{message.dateRead | timeago}})</span>
+                                        (read {{message.dateRead | timeago}})</span>
 
                                 </small>
                             </div>
                         </div>
-                        <button class="btn btn-danger del" (click)="deleteMessage(message.id)">X</button>
+                        <button class="btn  del" (click)="deleteMessage(message.id)">
+                            <i class="fa fa-solid fa-trash"></i>
+                        </button>
                     </div>
 
                     <p class="p-3 m-1 messageContent">{{message.content}}</p>
@@ -37,17 +43,21 @@
         </ul>
     </div>
 
-    <div class="card-footer">
+    <div class="card-footer ">
         <form #messageForm="ngForm" (ngSubmit)="sendMessage()" autocomplete="off">
-            <div class="input-group">
-                <input  name="messageContent" required [(ngModel)]="messageContent" type="text"
-                    class="form-control input-sm input-btn" placeholder="Send a private message">
-                <div class="input-group-append">
-                    <button [disabled]="!messageForm.valid" class="btn btn-primary send-btn" type="submit">
-                        Send <i *ngIf="" class="fa fa-spinner fa-spin"></i>
+            <div class="row">
+                <div class="col-8 col-md-9 col-sm-8 col-xs-10 ">
+                    <textarea name="messageContent" [(ngModel)]="messageContent" class="form-control input-sm input-btn"
+                        placeholder="Send a private message" rows="1"></textarea>
+                </div>
+                <div class="col-4 col-md-3 col-sm-4 col-xs-2 d-flex align-items-center">
+                    <button [disabled]="!messageForm.valid" class="btn btn-primary send-btn w-100" type="submit">
+                        Send <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
                     </button>
                 </div>
             </div>
         </form>
+
+
     </div>
 </div>

@@ -5,6 +5,7 @@ using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.Intrinsics.X86;
 
 namespace API.Data
 {
@@ -12,6 +13,9 @@ namespace API.Data
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<IUnitOfWork> _logger;
+
         public MessageRepository(DataContext context, IMapper mapper)
         {
             _mapper = mapper;
@@ -27,6 +31,24 @@ namespace API.Data
         {
             _context.Messages.Add(message);
         }
+
+        public async Task MarkMessagesAsDeletedForUserAsync(string currentUserName, string recipientUserName)
+        {
+            var messages = await _context.Messages
+        .Where(m => (m.SenderUserName == currentUserName && m.RecipientUserName == recipientUserName) ||
+                    (m.SenderUserName == recipientUserName && m.RecipientUserName == currentUserName))
+        .ToListAsync();
+
+            foreach (var message in messages)
+            {
+                message.SenderDeleted = true;  // or your specific delete logic
+                message.RecipientDeleted = true;
+                _context.Entry(message).State = EntityState.Modified;
+            }
+
+
+        }
+    
 
         public void DeleteMessage(Message message)
         {
@@ -62,6 +84,7 @@ namespace API.Data
         {
             var query = _context.Messages
                 .OrderByDescending(x => x.MessageSent)
+                .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
                 .AsQueryable();
 
             query = messageParams.Container switch
@@ -74,26 +97,27 @@ namespace API.Data
                     && u.RecipientDeleted == false && u.DateRead == null)
             };
 
-            var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
 
             return await PagedList<MessageDto>
-                .CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
+                .CreateAsync(query, messageParams.PageNumber, messageParams.PageSize);
         }
 
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUserName, string recipientUserName)
         {
-            var query = _context.Messages
+            var messages = _context.Messages
+                .Include(u => u.Sender).ThenInclude(p => p.Photos)
+                .Include(u => u.Recipient).ThenInclude(p => p.Photos)
                 .Where(
                     m => m.RecipientUserName == currentUserName && m.RecipientDeleted == false &&
                     m.SenderUserName == recipientUserName ||
                     m.RecipientUserName == recipientUserName && m.SenderDeleted == false &&
                     m.SenderUserName == currentUserName
                 )
-                .OrderBy(m => m.MessageSent)
-                .AsQueryable();
+                .OrderBy(m => m.MessageSent).AsQueryable();
+                
 
 
-            var unreadMessages = query.Where(m => m.DateRead == null
+            var unreadMessages = messages.Where(m => m.DateRead == null
                 && m.RecipientUserName == currentUserName).ToList();
 
             if (unreadMessages.Any())
@@ -104,8 +128,10 @@ namespace API.Data
                 }
             }
 
-            return await query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
+            return await messages.ProjectTo<MessageDto>(_mapper.ConfigurationProvider).ToListAsync();
         }
+
+        
 
         public void RemoveConnection(Connection connection)
         {

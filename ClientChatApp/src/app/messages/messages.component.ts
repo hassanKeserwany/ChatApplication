@@ -9,7 +9,7 @@ import { Pagination } from '../_models/pagination';
   styleUrls: ['./messages.component.css'],
 })
 export class MessagesComponent implements OnInit {
-  loading: boolean=false;
+  loading: boolean = false;
 
   messages: Message[] = [];
   pagination!: Pagination;
@@ -25,7 +25,7 @@ export class MessagesComponent implements OnInit {
   }
 
   loadMessages() {
-    this.loading=true;
+    this.loading = true;
     this.messageService
       .getMessages(this.pageNumber, this.pageSize, this.container)
       .subscribe(
@@ -33,26 +33,31 @@ export class MessagesComponent implements OnInit {
           if (res) {
             this.messages = res.result;
             this.pagination = res.pagination;
-            this.loading=false
+            this.loading = false;
           }
         },
         (error) => {
           console.error('Error loading messages:', error);
+          this.loading = false;
         }
       );
   }
 
   pageChanged(event: any) {
-    if (this.pageNumber != event.page) {
+    if (this.pageNumber !== event.page) {
       this.pageNumber = event.page;
+      this.loadMessages();
+    } else {
+      this.pageNumber = 1;
     }
-
-    this.loadMessages();
   }
 
   deleteMessage(id: number) {
-    this.messageService.deleteMessage(id).subscribe(()=>{
-      this.messages.splice(this.messages.findIndex(m=>m.id ===id),1)
+    this.messageService.deleteMessage(id).subscribe(() => {
+      this.messages.splice(
+        this.messages.findIndex((m) => m.id === id),
+        1
+      );
     });
   }
 }

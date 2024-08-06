@@ -5,6 +5,8 @@ using API.Helper;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace API.Controllers
 {
@@ -13,14 +15,14 @@ namespace API.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly ILogger<MessagesController> _logger;
 
-        public MessagesController(IUnitOfWork unitOfWork,IMapper mapper)
+        public MessagesController(IUnitOfWork unitOfWork,IMapper mapper ,ILogger<MessagesController> logger)
              
         {
             _unitOfWork = unitOfWork;
-
-
             _mapper = mapper;
+            _logger = logger;
         }
         [HttpPost]
         public async Task<ActionResult<MessageDto>> CreateMessage(CreateMesssageDto createMesssageDto)
@@ -136,6 +138,29 @@ namespace API.Controllers
             // Return a bad request if the message couldn't be deleted
             return BadRequest("Failed to delete the message");
         }
+
+
+        [HttpDelete("delete-conversation/{recepientUsername}")]
+        public async Task<IActionResult> DeleteConversationForUser(string recepientUsername)
+        {
+            if (string.IsNullOrEmpty(recepientUsername)) return BadRequest("Recipient username is required");
+
+            var username = User.GetUsername();
+            if (string.IsNullOrEmpty(username)) return BadRequest("Failed to get the current user's username");
+
+            await _unitOfWork.MessageRepository.MarkMessagesAsDeletedForUserAsync(username, recepientUsername.ToLower());
+            var result = await _unitOfWork.Complete();
+            _logger.LogInformation($"UnitOfWork.Complete() result: {result}");
+
+            if (result) return NoContent();
+
+            return BadRequest("Failed to delete the conversation");
+        }
+
+
+
+
+
 
 
 

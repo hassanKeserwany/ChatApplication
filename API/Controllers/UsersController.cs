@@ -64,7 +64,8 @@ namespace API.Controllers
         public async Task<ActionResult> UpdateMember(MemberUpdateDto UpdatedMember)
         {
             //we should take the username from the token , where we authenticate 
-            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var username = User.FindFirst(ClaimTypes.Name)?.Value;
+            
             AppUser user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(username);
 
             _mapper.Map(UpdatedMember, user);

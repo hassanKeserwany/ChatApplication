@@ -1,6 +1,7 @@
 ﻿namespace API.Extensions
 {
-    public static class DateTimeExtensions
+    public static class 
+        Extensions
     {
         public static int CalculateAge(this DateTime dateOfBirth)
         {

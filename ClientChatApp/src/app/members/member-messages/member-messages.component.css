@@ -2,7 +2,7 @@
   border: none;
 }
 .card-body {
-  height: 500px;
+  height: 450px;
 }
 .chat {
   list-style: none;
@@ -22,10 +22,27 @@
 .del {
   width: 20px;
   height: 20px;
-  font-size: 10px;
   text-align: center;
   padding: 0;
   margin: 0;
+}
+.del i {
+  font-size: 16px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.send-btn {
+  width: 100%; /* Makes the button fill the column width */
+  margin: 0;
+  padding: 0;
+}
+textarea{
+  margin: 0;
+
+}
+.card-footer{
+  padding: 0;
 }
 
 @media screen and (max-width: 767px) {
@@ -41,27 +58,41 @@
   .chat .messageContent {
     font-size: 16px;
   }
-
+  .form-control.input-sm.input-btn {
+    font-size: 14px;
+  }
+}
+.ClearHistory {
+  cursor: pointer;
+  background-color: red;
+  padding: 3px 5px; /* Padding for left and right */
+  color: white;
+  font-family: cursive;
+  display: inline-block; /* Adjusts width to fit the text */
+  font-size: 12px;
+  position: relative;
+  margin-left: 10px;
+  
 }
 
-  @media screen and (max-width: 500px) {
-    .card-body {
-        height: 400px;
-      }
-      .send-btn{
-        margin-top: 5px;
-        font-size: 10px;
-      }
-      .input-btn{
-margin-right: 10px;
-font-size: 14px;
-      }
-      
-    
+@media screen and (max-width: 500px) {
+  .card-body {
+    height: 400px;
   }
-  @media screen and (max-width: 480px) {
-    .card-body {
-        height: 350px;
-      }
+  .send-btn {
+    margin-top: 5px;
+    font-size: 10px;
   }
-
+  .input-btn {
+    margin-right: 10px;
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .card-body {
+    height: 350px;
+  }
+  .form-control.input-sm.input-btn {
+    font-size: 12px;
+  }
+}

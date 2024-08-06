@@ -1,0 +1,25 @@
+.btn-info{
+    color: white;
+}
+@media screen and (max-width: 455px) {
+    .btn-info{
+        font-size: 12px;
+        display: inline-block;
+    }
+    td{
+        font-size: 12px;
+    }
+    th{
+        font-size: 14px;
+    }
+}
+@media screen and (max-width: 400px) {
+    .btn-info{
+        font-size: 10px;
+        display: inline-block;
+    }
+    td{
+        font-size: 10px;
+
+    }
+}

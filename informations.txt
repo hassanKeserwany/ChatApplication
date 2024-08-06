@@ -1,3 +1,9 @@
+PostgreSQL 
+password:password
+
+********************************************
+appsetting.development
+
 {
 
   "ConnectionStrings": {
@@ -26,4 +32,22 @@
       }
     }
   }
+}
+
+
+appsetting.json
+
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "CloudinarySettings": {
+    "CloudName": "dmpulryzu",
+    "ApiKey": "389171157613542",
+    "ApiSecret": "MpXzcYAJtQzHx1zuSevVIEcumd8"
+  },
+  "AllowedHosts": "*"
 }

@@ -2,11 +2,11 @@ import { Injectable, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatedResult } from '../_models/pagination';
-import { map, take } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { Message } from '../_models/message';
 import { HttpTransportType, HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
 import { User } from '../_models/User';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { group } from '@angular/animations';
 import { Group } from '../_models/group';
 import { BusyService } from './busy.service';
@@ -125,4 +125,22 @@ export class MessageService implements OnInit {
     return this.hubConnection?.invoke('SendMessage', {recipientUsername: username, content})
       .catch(error => console.log(error));
   }
+
+//   // message.service.ts
+// deleteConversationForUser(recepientUsername: string) {
+//   return this.http.delete(this.baseUrl + `messages/delete-conversation/`+ recepientUsername);
+//   this.messageThread$.subscribe(()=>{
+
+//   })
+// }
+deleteConversationForUser(recipientUsername: string): Observable<void> {
+  return this.http.delete<void>(`${this.baseUrl}messages/delete-conversation/${recipientUsername}`).pipe(
+    tap(() => {
+      // Notify subscribers that the message thread has been deleted
+      this.messageThreadSource.next([]);
+    })
+  );
+}
+
+
 }

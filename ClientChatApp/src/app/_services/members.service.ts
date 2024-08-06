@@ -2,7 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { member } from '../_models/member';
-import { map, of, take, tap } from 'rxjs';
+import { catchError, map, of, take, tap, throwError } from 'rxjs';
 import { PaginatedResult } from '../_models/pagination';
 import { UserParams } from '../_models/userParams';
 import { AccountService } from './account.service';
@@ -96,14 +96,34 @@ export class MembersService implements OnInit {
 
     return this.http.get<member>(this.baseUrl + 'Users/username/' + username);
   }
+  // updateMember(member: member) {
+  //   return this.http.put(this.baseUrl + 'users', member).pipe(
+  //     map(() => {
+  //       const index = this.members.indexOf(member);
+  //       this.members[index] = member;
+  //     })
+  //   );
+  // }
+
   updateMember(member: member) {
     return this.http.put(this.baseUrl + 'users', member).pipe(
       map(() => {
-        const index = this.members.indexOf(member);
-        this.members[index] = member;
+        const index = this.members.findIndex(m => m.id === member.id);
+        if (index !== -1) {
+          this.members = [
+            ...this.members.slice(0, index),
+            member,
+            ...this.members.slice(index + 1)
+          ];
+        }
+      }),
+      catchError(error => {
+        console.error('Update member failed', error);
+        return throwError(error);
       })
     );
   }
+  
 
   deletePhoto(photoId: number) {
     return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
