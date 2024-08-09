@@ -24,7 +24,14 @@ label,
 input {
   margin: 15px;
 }
-
+.searchByNameInput {
+  width: 200px;
+  display: inline-block;
+}
+.searchByNameInput::placeholder {
+  color: rgb(174, 171, 171);
+  font-family: monospace;
+}
 /*animation for matches-found  */
 @keyframes heartbeat {
   0%,
@@ -86,7 +93,7 @@ input {
     font-size: 14px;
   }
   label[_ngcontent-ng-c2097572444],
-  input[_ngcontent-ng-c2097572444] ,
+  input[_ngcontent-ng-c2097572444],
   select[_ngcontent-ng-c2097572444] {
     font-size: 14px;
   }
@@ -99,7 +106,7 @@ input {
     font-size: 12px;
   }
   label[_ngcontent-ng-c2097572444],
-  input[_ngcontent-ng-c2097572444] ,
+  input[_ngcontent-ng-c2097572444],
   select[_ngcontent-ng-c2097572444] {
     font-size: 12px;
   }

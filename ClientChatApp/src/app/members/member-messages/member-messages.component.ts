@@ -83,28 +83,32 @@ export class MemberMessagesComponent implements OnInit {
     });
   }
 
+  // member-messages.component.ts
   deleteConversation() {
-    if (this.messages.length == 0) {
-      console.log('no messages');
-      return;
+    if (this.messages.length === 0) {
+        console.log('No messages to delete');
+        return;
     }
     if (!this.username) {
-      console.error('Username is required');
-      return;
+        console.error('Username is required');
+        return;
     }
 
+    console.log(`Deleting conversation with username: ${this.username}`);
+
     this.messageService.deleteConversationForUser(this.username).subscribe(
-      () => {
-        // Clear the messages on successful deletion
-        this.messages = [];
-        this.cdr.detectChanges(); // Force change detection
-      },
-      (error) => {
-        // Log the error to console
-        console.error('Error deleting conversation', error);
-      }
+        () => {
+            // Clear the messages on successful deletion
+            console.log('Conversation deleted successfully');
+            this.messages = [];
+            this.cdr.detectChanges(); // Force change detection
+        },
+        (error) => {
+            // Log the error to console
+            console.error('Error deleting conversation', error);
+        }
     );
-  }
+}
 
 
   resizeTextArea(textarea: HTMLTextAreaElement) {

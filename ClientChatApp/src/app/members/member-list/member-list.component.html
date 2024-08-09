@@ -10,6 +10,16 @@
   <button class="btn btn-group btn-danger" *ngIf="filtering" (click)="filterData()">
     X
   </button>
+
+  <!-- <input type="text" class="form-control ms-3 searchByNameInput" [(ngModel)]="userParams.username"
+    placeholder="search by username">
+  <button class="btn btn-group btn-secondary" (click)="LoadMembers()">
+    search
+  </button> -->
+  <input type="text" class="form-control ms-3 searchByNameInput" [(ngModel)]="userParams.username"
+  placeholder="search by username" (input)="LoadMembers()">
+
+
 </div>
 
 <div class="container mt-3 filteringForm" *ngIf="userParams" [class.show]="filtering">
@@ -64,17 +74,11 @@
 
 <div class="d-flex justify-content-center" *ngIf="pagination">
 
-  <pagination [boundaryLinks]="true"
-    [totalItems]="pagination.totalItems"
-    [itemsPerPage]="pagination.itemsPerPage"
-    [(ngModel)]="pagination.currentPage"
-    (pageChanged)="pageChanged($event)"
-    previousText="&lsaquo;"
-    nextText="&rsaquo;"
-    firstText="&laquo;"
-    lastText="&raquo;">
+  <pagination [boundaryLinks]="true" [totalItems]="pagination.totalItems" [itemsPerPage]="pagination.itemsPerPage"
+    [(ngModel)]="pagination.currentPage" (pageChanged)="pageChanged($event)" previousText="&lsaquo;" nextText="&rsaquo;"
+    firstText="&laquo;" lastText="&raquo;">
   </pagination>
 
 
-  
+
 </div>

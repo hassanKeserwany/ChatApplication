@@ -15,7 +15,7 @@ export class AccountService {
   private currentUserSource = new ReplaySubject<User>(1);
   currentUser$ = this.currentUserSource.asObservable();
 
-  constructor(private http: HttpClient,private presence: PresenceService) {}
+  constructor(private http: HttpClient, private presence: PresenceService) {}
 
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'Account/login', model).pipe(
@@ -30,10 +30,10 @@ export class AccountService {
   }
 
   setCurrentUser(user: User) {
-    if(user){
+    if (user) {
       user.roles = [];
       const roles = this.getDecodedToken(user.token).role;
-    Array.isArray(roles)?user.roles=roles: user.roles.push(roles);
+      Array.isArray(roles) ? (user.roles = roles) : user.roles.push(roles);
     }
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSource.next(user);
@@ -47,9 +47,9 @@ export class AccountService {
       photoUrl: '',
       knownAs: '',
       gender: '',
-      roles:[],
+      roles: [],
     });
-    this.presence.stopHubConnection();  
+    this.presence.stopHubConnection();
     window.location.reload();
   }
   registerService(modle: any) {
@@ -66,8 +66,8 @@ export class AccountService {
 
   getDecodedToken(token: string) {
     var result = JSON.parse(atob(token.split('.')[1]));
-    console.log(result.role)
-    console.log("result")
+    //console.log(result.role)
+    //console.log("result")
 
     return result;
   }

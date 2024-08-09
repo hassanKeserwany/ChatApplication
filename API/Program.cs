@@ -27,7 +27,7 @@ var config = new ConfigurationBuilder()
 var connectionString = config.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<DataContext>(options =>
-    options.UseSqlServer(connectionString)
+    options.UseNpgsql(connectionString)
 );
 
 // add service for AutoMapper

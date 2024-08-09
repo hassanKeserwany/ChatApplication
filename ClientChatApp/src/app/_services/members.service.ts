@@ -69,6 +69,7 @@ export class MembersService implements OnInit {
 
     params = params.append('minAge', userParams.minAge.toString());
     params = params.append('maxAge', userParams.maxAge.toString());
+    params = params.append('username', userParams.username!);
     if (userParams.gender) {
       params = params.append('gender', userParams.gender);
     }

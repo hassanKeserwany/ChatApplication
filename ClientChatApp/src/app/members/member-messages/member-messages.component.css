@@ -31,18 +31,26 @@
   padding-left: 5px;
   padding-right: 5px;
 }
-
+.row {
+}
 .send-btn {
-  width: 100%; /* Makes the button fill the column width */
-  margin: 0;
-  padding: 0;
+  width: 10%;
+  color: rgb(12, 122, 159);
+  margin-left: 5px;
+  margin-bottom: 10px;
+  font-size: 150%;
 }
-textarea{
-  margin: 0;
-
+.senderPlace {
+  border: none;
 }
-.card-footer{
+textarea {
+  margin-left: 15px;
+  margin-bottom: 10px;
+  width: 80%;
+}
+.card-footer {
   padding: 0;
+  border: none;
 }
 
 @media screen and (max-width: 767px) {
@@ -61,6 +69,12 @@ textarea{
   .form-control.input-sm.input-btn {
     font-size: 14px;
   }
+  .send-btn {
+    font-size: 100%;
+  }
+  textarea {
+    width: 75%;
+  }
 }
 .ClearHistory {
   cursor: pointer;
@@ -72,7 +86,7 @@ textarea{
   font-size: 12px;
   position: relative;
   margin-left: 10px;
-  
+  margin-bottom: 10px;
 }
 
 @media screen and (max-width: 500px) {
@@ -80,8 +94,10 @@ textarea{
     height: 400px;
   }
   .send-btn {
-    margin-top: 5px;
-    font-size: 10px;
+    font-size: 80%;
+  }
+  textarea {
+    width: 70%;
   }
   .input-btn {
     margin-right: 10px;
@@ -94,5 +110,15 @@ textarea{
   }
   .form-control.input-sm.input-btn {
     font-size: 12px;
+  }
+  .send-btn {
+    font-size: 75%;
+    margin-left: 0px;
+  }
+  textarea {
+    width: 70%;
+  }
+  .fa-trash {
+    font-size: 50%;
   }
 }

@@ -13,7 +13,7 @@ import { User } from '../_models/User';
 export class NavComponent implements OnInit {
   model: account = {
     username: '',
-    password: 'Passw0rd',
+    password: '',
   };
 
   emptyImage = '/assets/carousel-imgs/Event-Image-Not-Found.jpg';

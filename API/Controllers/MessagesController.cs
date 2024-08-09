@@ -31,7 +31,7 @@ namespace API.Controllers
 
             if (username == createMesssageDto.RecipientUsername.ToLower())
             {
-                //return BadRequest("You cannot send messages to yourself.");
+                return Ok();
             }
             var sender = await _unitOfWork.UserRepository.GetUserByUserNameAsync(username);
             var recipient = await _unitOfWork.UserRepository.GetUserByUserNameAsync(createMesssageDto.RecipientUsername);
@@ -139,28 +139,40 @@ namespace API.Controllers
             return BadRequest("Failed to delete the message");
         }
 
-
-        [HttpDelete("delete-conversation/{recepientUsername}")]
-        public async Task<IActionResult> DeleteConversationForUser(string recepientUsername)
+        [HttpDelete("delete-conversation/{recipientUsername}")]
+        public async Task<IActionResult> DeleteConversationForUser(string recipientUsername)
         {
-            if (string.IsNullOrEmpty(recepientUsername)) return BadRequest("Recipient username is required");
+            _logger.LogInformation($"DeleteConversationForUser called with recipientUsername: {recipientUsername}");
+
+            if (string.IsNullOrEmpty(recipientUsername))
+            {
+                _logger.LogError("Recipient username is required");
+                return BadRequest("Recipient username is required");
+            }
 
             var username = User.GetUsername();
-            if (string.IsNullOrEmpty(username)) return BadRequest("Failed to get the current user's username");
+            _logger.LogInformation($"Current user's username: {username}");
+            if (string.IsNullOrEmpty(username))
+            {
+                _logger.LogError("Failed to get the current user's username");
+                return BadRequest("Failed to get the current user's username");
+            }
 
-            await _unitOfWork.MessageRepository.MarkMessagesAsDeletedForUserAsync(username, recepientUsername.ToLower());
+            await _unitOfWork.MessageRepository.MarkMessagesAsDeletedForUserAsync(username, recipientUsername.ToLower());
             var result = await _unitOfWork.Complete();
             _logger.LogInformation($"UnitOfWork.Complete() result: {result}");
 
-            if (result) return NoContent();
+            return NoContent();
 
-            return BadRequest("Failed to delete the conversation");
+            /*if (result)
+            {
+                _logger.LogInformation("Conversation deleted successfully");
+                return NoContent();
+            }
+
+            _logger.LogError("Failed to delete the conversation ");
+            return BadRequest("Failed to delete the conversation ");*/
         }
-
-
-
-
-
 
 
 

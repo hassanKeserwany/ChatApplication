@@ -1,3 +1,4 @@
+using API.Controllers;
 using API.Interfaces;
 using AutoMapper;
 
@@ -7,10 +8,13 @@ namespace API.Data
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
-        public UnitOfWork(DataContext context, IMapper mapper)
+        private readonly ILogger<UnitOfWork> _logger;
+
+        public UnitOfWork(DataContext context, IMapper mapper, ILogger<UnitOfWork> logger)
         {
             _mapper = mapper;
             _context = context;
+            _logger = logger;
         }
 
         public IUserRepository UserRepository => new UserRepository(_context, _mapper);
@@ -21,7 +25,9 @@ namespace API.Data
 
         public async Task<bool> Complete()
         {
-            return await _context.SaveChangesAsync() > 0;
+            var result= await _context.SaveChangesAsync() > 0;
+
+            return result;
         }
 
         public bool HasChanges()

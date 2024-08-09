@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { member } from '../../_models/member';
 import { MembersService } from '../../_services/members.service';
-import { Observable, every, take } from 'rxjs';
+import { Observable, Subject, every, take } from 'rxjs';
 import { Pagination } from '../../_models/pagination';
 import { UserParams } from '../../_models/userParams';
 import { AccountService } from '../../_services/account.service';
@@ -33,7 +33,7 @@ export class MemberListComponent implements OnInit {
   ngOnInit(): void {
     this.LoadMembers();
   }
-
+ 
   LoadMembers() {
     this.memberService.setUserParams(this.userParams);
     this.memberService.getMembers(this.userParams).subscribe(

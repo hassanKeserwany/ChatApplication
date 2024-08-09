@@ -40,6 +40,9 @@
 .text-overlay i {
   cursor: pointer;
 }
+.photo-card{
+  padding: 0;
+}
 
 .image-wrapper:hover img {
   /* opacity: 0.5; */

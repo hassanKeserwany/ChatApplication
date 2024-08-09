@@ -164,7 +164,8 @@ namespace API.Controllers
         [HttpPut("set-main-photo/{photoId}")]
         public async Task<ActionResult> SetMainPhoto(int photoId)
         {
-            var username = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            //var username = User.FindFirst(ClaimTypes.NameIdentifier);
+            var username =User.GetUsername();
             var user = await _unitOfWork.UserRepository.GetUserByUserNameAsync(username);
             var photo = user.Photos.FirstOrDefault(p => p.Id == photoId);
 

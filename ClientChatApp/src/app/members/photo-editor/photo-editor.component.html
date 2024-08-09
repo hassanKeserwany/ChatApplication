@@ -1,7 +1,7 @@
 <!-- Add  primeng Upload file-->
 
 <div class="row primengLibFile">
-  <div class="card flex justify-content-center">
+  <div class="card flex justify-content-center photo-card">
     <p-toast></p-toast>
     <p-fileUpload name="file" [url]="baseUrl + 'users/add-Photo'" (onUpload)="onUpload($event)"
       (onError)="onError($event)" [multiple]="false" [accept]="allowedFileTypes.join(',')"

@@ -1,13 +1,13 @@
 <span class="ClearHistory btn" (click)="deleteConversation()"> Clear History</span>
 
 <div class="card">
-    
+
     <div class="card-body ">
         <div class="noMessages" *ngIf="(messageService.messageThread$ | async)?.length === 0">
             No messages yet... say hi by using the message box below
         </div>
 
-        <ul #scrollMe style="overflow: scroll ;height: 500px;" [scrollTop]="scrollMe.scrollHeight" class="chat p-3"
+        <ul #scrollMe style="height: 500px;" [scrollTop]="scrollMe.scrollHeight" class="chat p-3"
             *ngIf="(messageService.messageThread$ | async)!.length > 0">
             <li *ngFor="let message of (messageService.messageThread$ | async)">
                 <div>
@@ -43,18 +43,20 @@
         </ul>
     </div>
 
-    <div class="card-footer ">
+    <div class="card-footer  ">
         <form #messageForm="ngForm" (ngSubmit)="sendMessage()" autocomplete="off">
-            <div class="row">
-                <div class="col-8 col-md-9 col-sm-8 col-xs-10 ">
+            <div class="row d-flex">
+                
                     <textarea name="messageContent" [(ngModel)]="messageContent" class="form-control input-sm input-btn"
                         placeholder="Send a private message" rows="1"></textarea>
-                </div>
-                <div class="col-4 col-md-3 col-sm-4 col-xs-2 d-flex align-items-center">
-                    <button [disabled]="!messageForm.valid" class="btn btn-primary send-btn w-100" type="submit">
-                        Send <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
-                    </button>
-                </div>
+                            <button [disabled]="!messageForm.valid" class="btn  send-btn  " type="submit">
+                                <i class="fa fa-solid fa-paper-plane"></i> 
+                                <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
+                            </button>
+                
+                <!-- <div class="col-4 col-md-3 col-sm-4 col-xs-2 d-flex align-items-center senderPlace">
+                    
+                </div> -->
             </div>
         </form>
 

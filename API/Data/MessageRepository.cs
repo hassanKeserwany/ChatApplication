@@ -14,12 +14,11 @@ namespace API.Data
         private readonly DataContext _context;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly ILogger<IUnitOfWork> _logger;
 
         public MessageRepository(DataContext context, IMapper mapper)
         {
             _mapper = mapper;
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public void AddGroup(Group group)
@@ -35,20 +34,27 @@ namespace API.Data
         public async Task MarkMessagesAsDeletedForUserAsync(string currentUserName, string recipientUserName)
         {
             var messages = await _context.Messages
-        .Where(m => (m.SenderUserName == currentUserName && m.RecipientUserName == recipientUserName) ||
-                    (m.SenderUserName == recipientUserName && m.RecipientUserName == currentUserName))
-        .ToListAsync();
+                .Where(m => (m.SenderUserName == currentUserName && m.RecipientUserName == recipientUserName) ||
+                            (m.SenderUserName == recipientUserName && m.RecipientUserName == currentUserName))
+                .ToListAsync();
 
             foreach (var message in messages)
             {
-                message.SenderDeleted = true;  // or your specific delete logic
-                message.RecipientDeleted = true;
+                if (message.SenderUserName == currentUserName)
+                {
+                    message.SenderDeleted = true;
+                }
+                if (message.RecipientUserName == currentUserName)
+                {
+                    message.RecipientDeleted = true;
+                }
                 _context.Entry(message).State = EntityState.Modified;
             }
 
-
+            await _context.SaveChangesAsync();
         }
-    
+
+
 
         public void DeleteMessage(Message message)
         {

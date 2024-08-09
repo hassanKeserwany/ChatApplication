@@ -84,12 +84,9 @@ tabset tab {
 }
 
 .member-tabset > .tab-content {
-  margin-top: -3px;
-  background-color: #fff;
-  border: 0;
-  border-top: 1px solid #eee;
-  padding: 15px 0;
+  
 }
+
 .primengLibFile{
   width:auto;
   height:auto;
@@ -99,6 +96,9 @@ tabset tab {
   margin-bottom: 10px;
   margin-right: 5px;
 }
+.p-fileupload .p-fileupload-content ,.p-fileupload .p-fileupload-buttonbar{
+  background-color:transparent;
+}
 @media screen and (max-width: 430px) {
   .p-fileupload .p-fileupload-buttonbar .p-button {
     font-size: 10px;
@@ -107,5 +107,11 @@ tabset tab {
   .member-tabset > .nav-tabs > li > a {
     font-size: 14px;
   }
+
+}
+
+
+body{
+  background: radial-gradient(circle, rgb(225, 192, 207) 0%, rgb(189, 213, 240) 100%);
 
 }

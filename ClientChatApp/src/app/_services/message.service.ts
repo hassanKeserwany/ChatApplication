@@ -133,6 +133,9 @@ export class MessageService implements OnInit {
 
 //   })
 // }
+
+
+// message.service.ts
 deleteConversationForUser(recipientUsername: string): Observable<void> {
   return this.http.delete<void>(`${this.baseUrl}messages/delete-conversation/${recipientUsername}`).pipe(
     tap(() => {
@@ -141,6 +144,7 @@ deleteConversationForUser(recipientUsername: string): Observable<void> {
     })
   );
 }
+
 
 
 }
